@@ -7,7 +7,6 @@ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-cd abz
 python3 -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
