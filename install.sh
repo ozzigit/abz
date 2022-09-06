@@ -1,6 +1,5 @@
 #!/bin/bash
 sudo apt update && sudo apt upgrade && sudo apt install python3 python3-dev python3-pip ca-certificates curl  gnupg lsb-release
-git clone git@github.com:ozzigit/abz.git
 sudo mkdir -p /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 echo \
