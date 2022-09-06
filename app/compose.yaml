@@ -1,0 +1,21 @@
+services:
+  database:
+    image: postgres
+    container_name: abz_agency
+    restart: always
+    volumes:
+      - abz_agency_db:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    networks:
+      - abz_agency
+    env_file:
+      - .env_example
+
+networks:
+  abz_agency: { }
+
+volumes:
+  abz_agency_db:
+  abz_agency_static:
+  abz_agency_media:
