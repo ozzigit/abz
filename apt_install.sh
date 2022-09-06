@@ -12,5 +12,4 @@ sudo pip3 install docker-compose
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 sudo docker-compose build
-sudo docker-compose up
-reboot
+sudo docker-compose up -d
