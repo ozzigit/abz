@@ -10,7 +10,7 @@ class Employee(db.Model):
     work_position = db.Column(db.String(), nullable=False)
     date_join = db.Column(db.DateTime(), default=datetime.now())
     wage = db.Column(db.Float(precision=10, decimal_return_scale=2), default=0.01)
-    chief = db.Column(db.ForeignKey("employee_id"), default=None)
+    chief = db.Column(db.ForeignKey("public.employee_id"), default=None)
 
     def __init__(self, id, name, work_position, date_join, wage, chief):
         self.id = id
