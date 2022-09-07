@@ -19,6 +19,8 @@ class Employee(db.Model):
         self.date_join = date_join
         self.wage = wage
         self.chief = chief
+    def __repr__(self):
+        return '<Name {}>'.format(self.name)
 
 
 class User(db.Model):
