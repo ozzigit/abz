@@ -9,6 +9,7 @@ class Config(object):
     WTF_CSRF_SECRET_KEY = '1234567890'
     SECRET_KEY = '0987654321'
     SQLALCHEMY_DATABASE_URI = "postgresql://abz_user:abz_pass@localhost:5432/abz_db"
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 
 class ProductionConfig(Config):
