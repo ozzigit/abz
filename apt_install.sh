@@ -10,6 +10,6 @@ echo \
 sudo pip3 install docker-compose
 
 sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin   build-essential libpq-dev
 sudo docker-compose build
 sudo docker-compose up -d
