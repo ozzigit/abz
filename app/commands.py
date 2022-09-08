@@ -1,7 +1,7 @@
 from app import app, db
 import random
 from faker import Faker
-from .models import Employee
+from app.models import Employee
 
 
 class Commands:
@@ -10,36 +10,36 @@ class Commands:
     def add_employees_in_bd(cls, model):
         """ Adds workers with random names to the database
         """
-        workers_previous_hierarchy = []
-        list_workers = [1, 2, 3, 4, 5]
+        # create a Boss
+        boss = model(name='Boss', work_position='Boss', wage=0, chief=None)
+        db.session.add(boss)
+        db.session.commit()
+        boss_id = db.session.query(Employee).filter(Employee.name == 'Boss').one().id
+        workers_in_previous_hierarchy = set()
+        workers_in_previous_hierarchy.add(boss_id)
+        list_workers = [10, 30, 170, 800, 20000]
 
         for hierarchy in range(5):
-            _workers_created = []
+            all_workers_before_update = set([worker[0] for worker in db.session.query(Employee.id).all()])
+
             for i in range(list_workers[hierarchy]):
-                new_employee = model(**cls.__random_dict_employee(workers_previous_hierarchy))
-                _workers_created.append(new_employee)
-                # db.session.add(new_employee)
-                print(new_employee)
+                new_employee = model(**cls.__random_dict_employee(workers_in_previous_hierarchy))
+                db.session.add(new_employee)
+            db.session.commit()
 
-            workers_previous_hierarchy = _workers_created
-
-
-        db.session.commit()
+            all_workers = set([worker[0] for worker in db.session.query(Employee.id).all()])
+            workers_in_previous_hierarchy = all_workers - all_workers_before_update
 
     @staticmethod
-    def __random_dict_employee(chief_model_list):
+    def __random_dict_employee(chief_model_set):
         """ Returns a dictionary with random values to fill in the Employee model. """
         faker = Faker('ru_RU')
-        if len(chief_model_list) == 0:
-            random_object = None
-        else:
-            random_object = random.choice(chief_model_list)
-        return {
-            'name': faker.name(),
-            'work_position': faker.job(),
-            'wage': random.randint(3000, 4000),
-            'chief': random_object
-        }
+        random_object = random.choice(list(chief_model_set))
+        return {'name': faker.name(),
+                'work_position': faker.job(),
+                'wage': random.randint(10000, 60000),
+                'chief': random_object
+                }
 
     @classmethod
     def clear_db(cls, model):
@@ -47,13 +47,14 @@ class Commands:
         db.session.commit()
 
 
-@app.cli.command("init_db")
-def init_db():
-    """set values in db"""
+@app.cli.command("init_db_employers")
+def init_db_employers():
+    """set random values in employee table"""
+    Commands.clear_db(Employee)
     Commands.add_employees_in_bd(Employee)
 
 
-@app.cli.command("clear_db")
-def del_tables():
-    """del all tables in db"""
+@app.cli.command("clear_employers")
+def clear_employers():
+    """clear employee table in db"""
     Commands.clear_db(Employee)

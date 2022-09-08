@@ -11,7 +11,7 @@ class Employee(db.Model):
     work_position = db.Column(db.String(), nullable=False)
     date_join = db.Column(db.DateTime(), default=datetime.now())
     wage = db.Column(db.Float(precision=10, decimal_return_scale=2), default=0.01)
-    chief = db.Column(db.Integer, db.ForeignKey("employee.id"), default=None)
+    chief = db.Column(db.ForeignKey("employee.id"), default=None)
 
     # def __init__(self, id, name, work_position, date_join, wage, chief):
     #     self.id = id
@@ -24,8 +24,8 @@ class Employee(db.Model):
         return '<Name {}, id {}, chief {}>'.format(self.name, self.id, self.chief)
 
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True, nullable=False, unique=True, autoincrement=True)
+class Users(db.Model):
+    id = db.Column(db.Integer, Identity(start=1), primary_key=True, nullable=False, unique=True, autoincrement=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))

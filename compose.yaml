@@ -1,7 +1,8 @@
+version: "3.1"
 services:
   database:
     image: postgres
-    container_name: abz_agency
+    container_name: abz_db_docker
     restart: always
     volumes:
       - abz_agency_db:/var/lib/postgresql/data/
