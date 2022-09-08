@@ -12,13 +12,13 @@ class Employee(db.Model):
     wage = db.Column(db.Float(precision=10, decimal_return_scale=2), default=0.01)
     chief = db.Column(db.Integer, db.ForeignKey("employee.id"), default=None)
 
-    def __init__(self, id, name, work_position, date_join, wage, chief):
-        self.id = id
-        self.name = name
-        self.work_position = work_position
-        self.date_join = date_join
-        self.wage = wage
-        self.chief = chief
+    # def __init__(self, id, name, work_position, date_join, wage, chief):
+    #     self.id = id
+    #     self.name = name
+    #     self.work_position = work_position
+    #     self.date_join = date_join
+    #     self.wage = wage
+    #     self.chief = chief
     def __repr__(self):
         return '<Name {}>'.format(self.name)
 
@@ -29,11 +29,11 @@ class User(db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
 
-    def __init__(self, id, username, email, password_hash):
-        self.id = id
-        self.username = username
-        self.email = email
-        self.password_hash = password_hash
+    # def __init__(self, id, username, email, password_hash):
+    #     self.id = id
+    #     self.username = username
+    #     self.email = email
+    #     self.password_hash = password_hash
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
