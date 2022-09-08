@@ -134,3 +134,4 @@ dmypy.json
 /.idea/vcs.xml
 /.idea/abz.iml
 /.idea/.gitignore
+/migrations/
