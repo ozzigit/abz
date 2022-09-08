@@ -18,6 +18,7 @@ class Commands:
             for i in range(list_workers[hierarchy]):
                 new_employee = model(**cls.__random_dict_employee(workers_previous_hierarchy))
                 _workers_created.append(new_employee)
+                db.session.add(new_employee)
 
             workers_previous_hierarchy = _workers_created
 
