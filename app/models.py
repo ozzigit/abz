@@ -1,11 +1,12 @@
 from app import db
+from sqlalchemy import Identity
 from datetime import datetime
 
 
 class Employee(db.Model):
     __tablename__ = 'employee'
 
-    id = db.Column(db.Integer, nullable=False, unique=True, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, Identity(start=1), nullable=False, unique=True, primary_key=True, autoincrement=True)
     name = db.Column(db.String(), nullable=False)
     work_position = db.Column(db.String(), nullable=False)
     date_join = db.Column(db.DateTime(), default=datetime.now())
@@ -20,7 +21,7 @@ class Employee(db.Model):
     #     self.wage = wage
     #     self.chief = chief
     def __repr__(self):
-        return '<Name {}>'.format(self.name)
+        return '<Name {}, id {}, chief {}>'.format(self.name, self.id, self.chief)
 
 
 class User(db.Model):
