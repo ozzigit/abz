@@ -30,7 +30,7 @@ class Commands:
     def __random_dict_employee(chief_model_list=None):
         """ Returns a dictionary with random values to fill in the Employee model. """
         faker = Faker('uk_UA')
-        random_object = random.choice(chief_model_list) if chief_model_list is not None else chief_model_list
+        random_object = random.choice(chief_model_list) if chief_model_list is not None else [None]
         return {
             'name': faker.name(),
             'work_position': faker.job(),
