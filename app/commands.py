@@ -1,13 +1,13 @@
 from app import app, db
 import random
 from faker import Faker
-from models import Employee
+from .models import Employee
 
 
 class Commands:
 
     @classmethod
-    def add_employees_in_bd(cls):
+    def add_employees_in_bd(cls,model):
         """ Adds workers with random names to the database
         """
         workers_previous_hierarchy = []
@@ -16,10 +16,13 @@ class Commands:
         for hierarchy in range(5):
             _workers_created = []
             for i in range(list_workers[hierarchy]):
-                new_employee = Employee.objects.create(**cls.__random_dict_employee(workers_previous_hierarchy))
+                new_employee = model(**cls.__random_dict_employee(workers_previous_hierarchy))
                 _workers_created.append(new_employee)
 
             workers_previous_hierarchy = _workers_created
+
+        print(workers_previous_hierarchy)
+
         db.session.commit()
 
     @staticmethod
@@ -43,7 +46,7 @@ class Commands:
 @app.cli.command("init_db")
 def init_db():
     """set values in db"""
-    Commands.add_employees_in_bd()
+    Commands.add_employees_in_bd(Employee)
 
 
 @app.cli.command("clear_db")
