@@ -27,11 +27,11 @@ class Commands:
         db.session.commit()
 
     @staticmethod
-    def __random_dict_employee(chief_model_list=None):
+    def __random_dict_employee(chief_model_list):
         """ Returns a dictionary with random values to fill in the Employee model. """
-        faker = Faker('uk_UA')
-        if chief_model_list is None:
-            random_object=None
+        faker = Faker('ru_RU')
+        if len(chief_model_list) == 0:
+            random_object = None
         else:
             random_object = random.choice(chief_model_list)
         return {
