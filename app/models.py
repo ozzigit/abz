@@ -23,6 +23,15 @@ class Employee(db.Model):
     def __repr__(self):
         return '<Name {}, id {}, chief {}>'.format(self.name, self.id, self.chief)
 
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'work_position': self.work_position,
+            'date_join': self.date_join,
+            'wage': self.wage,
+            'chief': self.chief
+        }
+
 
 class Users(UserMixin, db.Model):
     id = db.Column(db.Integer, Identity(start=1), primary_key=True, nullable=False, unique=True, autoincrement=True)

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <h1> Hi, {{ current_user.username }} !</h1>
+    {% if form %}
+    {{ wtf.quick_form(form) }}
+    <br>
+    {% endif %}
+    <nav aria-label="...">
+        {% for key in childs.keys() %}
+        <a href="/index"> {{ key.name }} </a>
+        <ul >
+            {% for child in childs[key] %}
+                <li>{{ child.name }}</li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </nav>
+{% endblock %}

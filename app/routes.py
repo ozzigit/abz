@@ -3,7 +3,7 @@ from flask import render_template, flash, redirect, url_for, request
 from app import app, db
 from app.forms import LoginForm, RegistrationForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import Users
+from app.models import Users, Employee
 from werkzeug.urls import url_parse
 
 
@@ -12,7 +12,73 @@ from werkzeug.urls import url_parse
 @login_required
 def index():
     return render_template('index.html', title="Home Page")
-    # return render_template('index.html', title="Home Page", posts=None)
+
+
+@app.route('/table')
+@login_required
+def table():
+    employees = db.session.query(Employee).filter(Employee.name != 'Boss')
+    return render_template('table.html', title="table view", employees=employees)
+
+
+@app.route('/api/data')
+def data():
+    query = Employee.query
+    # search filter
+    search = request.args.get('search[value]')
+    if search:
+        query = query.filter(db.or_(
+            Employee.name.like(f'%{search}%'),
+            Employee.work_position.like(f'%{search}%'),
+            # Employee.date_join.like(f'%{search}%'),
+            # Employee.wage.like(f'%{search}%')
+        ))
+    total_filtered = query.count()
+    print(query, total_filtered)
+
+    # sorting
+    order = []
+    i = 0
+    while True:
+        col_index = request.args.get(f'order[{i}][column]')
+        if col_index is None:
+            break
+        col_name = request.args.get(f'columns[{col_index}][data]')
+        if col_name not in ['name', 'work_positon', 'date_join', 'wage']:
+            col_name = 'name'
+        descending = request.args.get(f'order[{i}][dir]') == 'desc'
+        col = getattr(Employee, col_name)
+        if descending:
+            col = col.desc()
+        order.append(col)
+        i += 1
+    if order:
+        query = query.order_by(*order)
+
+    # pagination
+    start = request.args.get('start', type=int)
+    length = request.args.get('length', type=int)
+    query = query.offset(start).limit(length)
+
+    # response
+    return {
+        'data': [employee.to_dict() for employee in query],
+        'recordsFiltered': total_filtered,
+        'recordsTotal': Employee.query.count(),
+        'draw': request.args.get('draw', type=int),
+    }
+
+
+@app.route('/get_childs')
+@login_required
+def get_childs():
+    boss = db.session.query(Employee).filter(Employee.name == 'Boss').one()
+    boss_id = boss.id
+    agency_stucture = {}
+    for childs in db.session.query(Employee).filter(Employee.chief == boss_id).all():
+        agency_stucture.setdefault(boss, []).append(childs)
+
+    return render_template('child.html', time="childs list", childs=agency_stucture)
 
 
 @app.route('/login', methods=['GET', 'POST'])
