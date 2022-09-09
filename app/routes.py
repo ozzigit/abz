@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import datetime
+
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
 from app.forms import LoginForm, RegistrationForm
@@ -27,12 +29,12 @@ def data():
     # search filter
     search = request.args.get('search[value]')
     if search:
-        query = query.filter(db.or_(
-            Employee.name.like(f'%{search}%'),
-            Employee.work_position.like(f'%{search}%'),
-            # Employee.date_join.like(f'%{search}%'),
-            # Employee.wage.like(f'%{search}%')
-        ))
+        query = query.filter(
+            db.or_(
+                db.or_(Employee.name.like(f'%{search}%'), Employee.work_position.like(f'%{search}%')),
+                Employee.wage == search
+            )
+        )
     total_filtered = query.count()
     print(query, total_filtered)
 

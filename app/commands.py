@@ -1,5 +1,6 @@
+import datetime
 from app import app, db
-import random
+from random import randint, choice, randrange
 from faker import Faker
 from app.models import Employee
 
@@ -34,10 +35,12 @@ class Commands:
     def __random_dict_employee(chief_model_set):
         """ Returns a dictionary with random values to fill in the Employee model. """
         faker = Faker('ru_RU')
-        random_object = random.choice(list(chief_model_set))
+        random_object = choice(list(chief_model_set))
+        random_date = datetime.date(randrange(1970, 2005), randrange(1, 13), randrange(1, 29))
         return {'name': faker.name(),
                 'work_position': faker.job(),
-                'wage': random.randint(10000, 60000),
+                'date_join': random_date,
+                'wage': randint(10000, 60000),
                 'chief': random_object
                 }
 
