@@ -2,31 +2,19 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-<h1> {{person.name}}</h1>
-{% if form %}
-{{ wtf.quick_form(form) }}
-<br>
+<h1 class="text-center"> {{person.name}}</h1>
+<div class="container">
+    <div class="row">
+        {% if form %}
+        <div class="col-md-5">
+            {{ wtf.quick_form(form) }}
+        </div>
+        <div class="col">
+            <img class="rounded float-start" src="/static/images/personal/{{person.photo_url}}" height="300">
+        </div>
+    </div>
+
+</div>
 {% endif %}
-<nav aria-label="...">
-    <ul>
-        <li>
-            {{ person.name }}
-        </li>
-        <li>
-            {{ person.wage }}
-        </li>
-        <li>
-            {{ person.work_position }}
-        </li>
-        <li>
-            {{ person.date_join }}
-        </li>
-        <li>
-            {{ person.chief_name }}
-        </li>
-        <li>
-            <img src="/static/images/personal/{{person.photo_url}}"   height="300">
-        </li>
-    </ul>
-</nav>
+
 {% endblock %}

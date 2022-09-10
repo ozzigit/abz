@@ -19,7 +19,7 @@ def index():
 @login_required
 def table():
     employees = db.session.query(Employee).filter(Employee.name != 'Boss')
-    return render_template('table.html', title="table view", employees=employees)
+    return render_template('table.html', title="Table view", employees=employees)
 
 
 @app.route('/api/data')
@@ -79,12 +79,13 @@ def data():
 @login_required
 def get_employee(id):
     if not id or id == 'None':
-        return "Empty query"
+        return redirect('/table', code=302)
     employee = db.session.query(Employee).filter(Employee.id == id).all()
     if len(employee):
-        form = PersonForm()
-        return render_template('person.html', title="Person info", person=employee[0], form=form)
-    return 'Not found'
+        person = employee[0]
+        form = PersonForm(obj=person)
+        return render_template('person.html', title="Person info", person=person, form=form)
+    return redirect('/table', code=302)
 
 
 @app.route('/get_childs/<id>')
@@ -116,6 +117,7 @@ def login():
 
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
