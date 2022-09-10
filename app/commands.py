@@ -38,13 +38,14 @@ class Commands:
         faker = Faker('ru_RU')
         random_object = choice(list(chief_model_set))
         random_photo = choice(list_of_random_photo)
-        random_date = datetime.date(randrange(1970, 2010), randrange(1, 13), randrange(1, 29))
+        random_date = str(datetime.date(randrange(1970, 2010), randrange(1, 13), randrange(1, 29)))
         return {'name': faker.name(),
                 'work_position': faker.job(),
                 'date_join': random_date,
                 'wage': randint(10000, 60000),
                 'chief': random_object,
-                'photo_url': random_photo
+                'photo_url': random_photo,
+                'chief_name': random_object.name
                 }
 
     @classmethod

@@ -18,10 +18,11 @@ class Employee(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
     work_position = db.Column(db.String(), nullable=False)
-    date_join = db.Column(db.String(), default='01/01/1960')
+    date_join = db.Column(db.String(), default="1965-01-01")
     wage = db.Column(db.Float(precision=10, decimal_return_scale=2), default=0.01)
     chief_id = db.Column(db.Integer, db.ForeignKey("employee.id"), index=True, nullable=True)
     chief = relationship('Employee', remote_side=[id])
+    chief_name = db.Column(db.String(), default="None")
     photo_url = db.Column(db.String(), default="")
 
     def __repr__(self):
@@ -32,10 +33,8 @@ class Employee(db.Model):
         if len(chief):
             chief = chief[0]
             chief_id = chief.id
-            chief_name = chief.name
         else:
             chief_id = "None"
-            chief_name = "None"
         return {
             'id': self.id,
             'name': self.name,
@@ -43,7 +42,7 @@ class Employee(db.Model):
             'date_join': self.date_join,
             'wage': self.wage,
             'chief_id': chief_id,
-            "chief_name": chief_name
+            "chief_name": self.chief_name
         }
 
 

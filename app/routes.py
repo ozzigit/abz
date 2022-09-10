@@ -27,11 +27,17 @@ def data():
     query = Employee.query
     # search filter
     search = request.args.get('search[value]')
+
     if search:
         query = query.filter(
             db.or_(
-                db.or_(Employee.name.like(f'%{search}%'), Employee.work_position.like(f'%{search}%')),
-                # Employee.wage == search
+                db.or_(Employee.name.like(f'%{search}%'),
+                       db.or_(Employee.date_join.like(f'%{search}%'),
+                              db.or_(Employee.chief_name.like(f'%{search}%'),
+                                     db.or_(Employee.work_position.like(f'%{search}%')),
+                                     Employee.wage == search if search.isnumeric() else None)
+                              )
+                       )
             )
         )
     total_filtered = query.count()
@@ -44,7 +50,7 @@ def data():
         if col_index is None:
             break
         col_name = request.args.get(f'columns[{col_index}][data]')
-        if col_name not in ['name', 'work_positon', 'date_join', 'wage']:
+        if col_name not in ['name', 'work_positon', 'date_join', 'wage', 'chief']:
             col_name = 'name'
         descending = request.args.get(f'order[{i}][dir]') == 'desc'
         col = getattr(Employee, col_name)
