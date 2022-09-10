@@ -1,31 +1,67 @@
-{% extends 'bootstrap/base.html' %}
+<!doctype html>
+<html>
+<head>
+    <title>{{ title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/table.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center panel-title">{% block title %}
+        {% if title %}{{ title }}{% else %}Welcome to ABZ{% endif %}
+        {% endblock %}
+    </h1>
 
-{% block title %}
-    {% if title %}{{ title }} - ABZ{% else %}Welcome to ABZ{% endif %}
-{% endblock %}
+    {% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-{% block navbar %}
-    <nav class="navbar navbar-default">
-        <a href="{{ url_for('index') }}">Home</a>
-        {% if current_user.is_anonymous %}
-        <a href="{{ url_for('login') }}">Login</a>
-        {% else %}
-        <a href="{{ url_for('logout') }}">Logout</a>
-        <a href="{{ url_for('table') }}">Table_view</a>
-        {% endif %}
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link active" href="{{ url_for('index') }}">Home</a>
+                </li>
+                {% if current_user.is_anonymous %}
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('login') }}">Login</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('table') }}">Table_view</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('logout') }}">Logout</a>
+                </li>
+                {% endif %}
+
+
+            </ul>
+        </div>
     </nav>
-{% endblock %}
-
-{% block content %}
+    {% endblock %}
+    {% block content %}
     <div class="container">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-info" role="alert">{{ message }}</div>
-            {% endfor %}
+        {% for message in messages %}
+        <div class="alert alert-info" role="alert">{{ message }}</div>
+        {% endfor %}
         {% endif %}
         {% endwith %}
 
         {% block app_content %}{% endblock %}
     </div>
-{% endblock %}
+    {% endblock %}
+</div>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.js"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
