@@ -2,7 +2,7 @@
 import json
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, PersonForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import Users, Employee
 from werkzeug.urls import url_parse
@@ -78,9 +78,12 @@ def data():
 @app.route('/person/<id>')
 @login_required
 def get_employee(id):
+    if not id or id == 'None':
+        return "Empty query"
     employee = db.session.query(Employee).filter(Employee.id == id).all()
     if len(employee):
-        return f'name {employee[0].name}, id {employee[0].id}'
+        form = PersonForm()
+        return render_template('person.html', title="Person info", person=employee[0], form=form)
     return 'Not found'
 
 
@@ -90,7 +93,7 @@ def get_childs(id):
     childs = db.session.query(Employee).filter(Employee.chief_id == id).all()
     chief = db.session.query(Employee).filter(Employee.id == id).all()
     if len(childs) and len(chief):
-        return render_template('child.html', time="childs list", childs=childs, chief=chief[0])
+        return render_template('child.html', title="childs list", childs=childs, chief=chief[0])
     return "Not found"
 
 
@@ -124,7 +127,7 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = Users(username=form.username.data, email=form.email.data)
+        user = Users(username=form.username.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
