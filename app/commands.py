@@ -41,7 +41,6 @@ class Commands:
                 'work_position': faker.job(),
                 'date_join': random_date,
                 'wage': randint(10000, 60000),
-                'chief': random_object
                 }
 
     @classmethod

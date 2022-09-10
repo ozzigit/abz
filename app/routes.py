@@ -36,7 +36,6 @@ def data():
             )
         )
     total_filtered = query.count()
-    print(query, total_filtered)
 
     # sorting
     order = []
@@ -69,6 +68,13 @@ def data():
         'recordsTotal': Employee.query.count(),
         'draw': request.args.get('draw', type=int),
     }
+
+
+@app.route('/<id>')
+@login_required
+def get_employee(id):
+    employee = db.session.query(Employee).filter(Employee.id == id).one()
+    return f'name {employee.name}, id {employee.id}'
 
 
 @app.route('/get_childs')
