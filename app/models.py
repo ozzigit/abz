@@ -1,3 +1,5 @@
+from sqlalchemy.orm import relationship
+
 from app import db, login
 from sqlalchemy import Identity
 from datetime import datetime
@@ -13,18 +15,21 @@ def load_user(id):
 class Employee(db.Model):
     __tablename__ = 'employee'
 
-    id = db.Column(db.Integer, Identity(start=1), nullable=False, unique=True, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
     work_position = db.Column(db.String(), nullable=False)
-    date_join = db.Column(db.DateTime(), default=datetime.now())
+    date_join = db.Column(db.String(), default='01/01/1960')
     wage = db.Column(db.Float(precision=10, decimal_return_scale=2), default=0.01)
-    chief = db.Column(db.ForeignKey("employee.id"), default=None)
+    chief_id = db.Column(db.Integer, db.ForeignKey("employee.id"), index=True, nullable=True)
+    chief = relationship('Employee', remote_side=[id])
+    foto_url = db.Column(db.String(), default="")
 
     def __repr__(self):
         return '<Name {}, id {}, chief {}>'.format(self.name, self.id, self.chief)
 
     def to_dict(self):
         return {
+            'id': self.id,
             'name': self.name,
             'work_position': self.work_position,
             'date_join': self.date_join,

@@ -32,7 +32,7 @@ def data():
         query = query.filter(
             db.or_(
                 db.or_(Employee.name.like(f'%{search}%'), Employee.work_position.like(f'%{search}%')),
-                Employee.wage == search
+                # Employee.wage == search
             )
         )
     total_filtered = query.count()

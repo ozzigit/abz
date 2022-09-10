@@ -18,7 +18,7 @@ class Commands:
         boss_id = db.session.query(Employee).filter(Employee.name == 'Boss').one().id
         workers_in_previous_hierarchy = set()
         workers_in_previous_hierarchy.add(boss_id)
-        list_workers = [10, 30, 170, 800, 20000]
+        list_workers = [10, 30, 70, 200, 2000]
 
         for hierarchy in range(5):
             all_workers_before_update = set([worker[0] for worker in db.session.query(Employee.id).all()])
@@ -41,6 +41,7 @@ class Commands:
                 'work_position': faker.job(),
                 'date_join': random_date,
                 'wage': randint(10000, 60000),
+                'chief': random_object
                 }
 
     @classmethod
