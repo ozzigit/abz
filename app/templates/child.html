@@ -2,19 +2,20 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-    <h1> Hi, {{ current_user.username }} !</h1>
-    {% if form %}
-    {{ wtf.quick_form(form) }}
-    <br>
-    {% endif %}
-    <nav aria-label="...">
-        {% for key in childs.keys() %}
-        <a href="/index"> {{ key.name }} </a>
-        <ul >
-            {% for child in childs[key] %}
-                <li>{{ child.name }}</li>
-            {% endfor %}
-        </ul>
+<h1> list of childs of {{chief.name}}</h1>
+{% if form %}
+{{ wtf.quick_form(form) }}
+<br>
+{% endif %}
+<nav aria-label="...">
+    <ul>
+        {% for child in childs %}
+        <li>{{ child.name }}
+            {{child.wage}}
+            {{child.id}}
+            {{child.photo_url}}
+        </li>
         {% endfor %}
-    </nav>
+    </ul>
+</nav>
 {% endblock %}

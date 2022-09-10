@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-import datetime
-
+import json
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
 from app.forms import LoginForm, RegistrationForm
@@ -70,23 +69,23 @@ def data():
     }
 
 
-@app.route('/<id>')
+@app.route('/person/<id>')
 @login_required
 def get_employee(id):
-    employee = db.session.query(Employee).filter(Employee.id == id).one()
-    return f'name {employee.name}, id {employee.id}'
+    employee = db.session.query(Employee).filter(Employee.id == id).all()
+    if len(employee):
+        return f'name {employee[0].name}, id {employee[0].id}'
+    return 'Not found'
 
 
-@app.route('/get_childs')
+@app.route('/get_childs/<id>')
 @login_required
-def get_childs():
-    boss = db.session.query(Employee).filter(Employee.name == 'Boss').one()
-    boss_id = boss.id
-    agency_stucture = {}
-    for childs in db.session.query(Employee).filter(Employee.chief == boss_id).all():
-        agency_stucture.setdefault(boss, []).append(childs)
-
-    return render_template('child.html', time="childs list", childs=agency_stucture)
+def get_childs(id):
+    childs = db.session.query(Employee).filter(Employee.chief_id == id).all()
+    chief = db.session.query(Employee).filter(Employee.id == id).all()
+    if len(childs) and len(chief):
+        return render_template('child.html', time="childs list", childs=childs, chief=chief[0])
+    return "Not found"
 
 
 @app.route('/login', methods=['GET', 'POST'])
