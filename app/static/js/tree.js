@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     var return_childs = (function (id_chief) {
         var tmp = null;
         $.ajax({
