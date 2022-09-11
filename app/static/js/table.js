@@ -16,8 +16,6 @@ $('#data').on('click', 'tbody td', function () {
     //get textContent of the TD
     const row = table.row(this).data();
     const text_pushed = this.textContent;
-    // console.log('TD cell textContent : ', this.textContent)
-    // console.log('row info :', row);
     if (row.chief_name == text_pushed) {
         window.location.href = "/person/" + row.chief_id;
     } else {

@@ -145,14 +145,14 @@ def register():
 def get_employeers():
     query = Employee.query
     # search filter
-    search = request.args.get('search[value]')
-    if search:
-        query = query.filter(Employee.wage == search if search.isnumeric() else None)
+    search = request.args.get('id_chief')
+    if search.isnumeric():
+        query = query.filter(Employee.chief_id == search)
     else:
-        # get top chiefs
         query = query.filter(Employee.chief_id == sa.null())
     # response
+    # [print(employee.to_dict()) for employee in query]
     return {
         'data': [employee.to_dict() for employee in query],
-        'draw': request.args.get('draw', type=int),
+        # 'draw': request.args.get('draw', type=int),
     }
