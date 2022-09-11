@@ -50,7 +50,7 @@ def data():
         if col_index is None:
             break
         col_name = request.args.get(f'columns[{col_index}][data]')
-        if col_name not in ['name', 'work_positon', 'date_join', 'wage', 'chief']:
+        if col_name not in ['name', 'work_positon', 'date_join', 'wage', 'chief_name']:
             col_name = 'name'
         descending = request.args.get(f'order[{i}][dir]') == 'desc'
         col = getattr(Employee, col_name)
@@ -78,7 +78,7 @@ def data():
 @app.route('/person/<id>')
 @login_required
 def get_employee(id: str):
-    if not id or id == 'None' or not id.isdigit():
+    if not id or not id.isdigit():
         return redirect('/table', code=302)
     employee = db.session.query(Employee).filter(Employee.id == id).all()
     if len(employee):
@@ -91,7 +91,7 @@ def get_employee(id: str):
 @app.route('/get_childs/<id>')
 @login_required
 def get_childs(id: str):
-    if not id or id == 'None' or not id.isdigit():
+    if not id or not id.isdigit():
         return redirect('/table', code=302)
     childs = db.session.query(Employee).filter(Employee.chief_id == id).all()
     chief = db.session.query(Employee).filter(Employee.id == id).all()

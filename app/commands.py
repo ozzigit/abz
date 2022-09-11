@@ -13,19 +13,12 @@ class Commands:
         """ Adds workers with random names to the database
         """
         list_of_random_photo = os.listdir('app/static/images/personal')
-        # create a Boss
-        boss = model(name='Boss', work_position='Boss', wage=0)
-        db.session.add(boss)
-        db.session.commit()
-        boss = db.session.query(model).filter(model.name == 'Boss').one()
-
         workers_in_previous_hierarchy = set()
-        workers_in_previous_hierarchy.add(boss)
-        list_workers = [10, 30, 70, 150, 500]
+        list_workers = [2, 5, 17, 115, 610]
+
         for hierarchy in range(len(list_workers)):
             all_workers_before_update = set(db.session.query(model).all())
             for i in range(list_workers[hierarchy]):
-
                 new_employee = model(**cls.__random_dict_employee(workers_in_previous_hierarchy, list_of_random_photo))
                 db.session.add(new_employee)
             db.session.commit()
@@ -37,17 +30,21 @@ class Commands:
     def __random_dict_employee(chief_model_set, list_of_random_photo):
         """ Returns a dictionary with random values to fill in the Employee model. """
         faker = Faker('ru_RU')
-        random_object = choice(list(chief_model_set))
         random_photo = choice(list_of_random_photo)
         random_date = str(datetime.date(randrange(1970, 2010), randrange(1, 13), randrange(1, 29)))
-        return {'name': faker.name(),
-                'work_position': faker.job(),
-                'date_join': random_date,
-                'wage': randint(10000, 60000),
-                'chief': random_object,
-                'photo_url': random_photo,
-                'chief_name': random_object.name
-                }
+
+        obj = {
+            'name': faker.name(),
+            'work_position': faker.job(),
+            'date_join': random_date,
+            'wage': randint(10000, 60000),
+            'photo_url': random_photo,
+        }
+        if len(chief_model_set):
+            obj['chief'] = choice(list(chief_model_set))
+            obj['chief_name'] = obj['chief'].name
+
+        return obj
 
     @classmethod
     def clear_db(cls, model):

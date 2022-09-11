@@ -22,7 +22,7 @@ class Employee(db.Model):
     wage = db.Column(db.Float(precision=10, decimal_return_scale=2), default=0.01)
     chief_id = db.Column(db.Integer, db.ForeignKey("employee.id"), index=True, nullable=True)
     chief = relationship('Employee', remote_side=[id])
-    chief_name = db.Column(db.String(), default="None")
+    chief_name = db.Column(db.String())
     photo_url = db.Column(db.String(), default="")
 
     def __repr__(self):
