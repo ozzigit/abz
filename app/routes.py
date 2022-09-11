@@ -77,8 +77,8 @@ def data():
 
 @app.route('/person/<id>')
 @login_required
-def get_employee(id):
-    if not id or id == 'None':
+def get_employee(id: str):
+    if not id or id == 'None' or not id.isdigit():
         return redirect('/table', code=302)
     employee = db.session.query(Employee).filter(Employee.id == id).all()
     if len(employee):
@@ -90,12 +90,14 @@ def get_employee(id):
 
 @app.route('/get_childs/<id>')
 @login_required
-def get_childs(id):
+def get_childs(id: str):
+    if not id or id == 'None' or not id.isdigit():
+        return redirect('/table', code=302)
     childs = db.session.query(Employee).filter(Employee.chief_id == id).all()
     chief = db.session.query(Employee).filter(Employee.id == id).all()
     if len(childs) and len(chief):
         return render_template('child.html', title="childs list", childs=childs, chief=chief[0])
-    return "Not found"
+    return redirect('/table', code=302)
 
 
 @app.route('/login', methods=['GET', 'POST'])

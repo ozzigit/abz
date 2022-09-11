@@ -1,13 +1,24 @@
 {% extends "base.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
-
+{% block css %}
+<link rel="stylesheet" type="text/css" href="../static/css/tree.css">
+{% endblock %}
 {% block app_content %}
-    <h1> Hi, {{ current_user.username }} !</h1>
-    {% if form %}
-    {{ wtf.quick_form(form) }}
-    <br>
-    {% endif %}
-    <nav aria-label="...">
-        some text
-    </nav>
+<h1 class="text-center"> Hi, {{ current_user.username }} !</h1>
+<h2> Tree of employers</h2>
+<ul class="treeCSS list-group">
+    <li class="list-group-item list-group-item-dark">Сайт
+        <ul class="treeCSS list-group">
+            <li class="list-group-item list-group-item-dark">Блог
+                <ul class="treeCSS list-group">
+                    <li class="list-group-item list-group-item-dark">HTML
+                    <li class="list-group-item list-group-item-dark">CSS
+                    <li class="list-group-item list-group-item-dark">JavaScript
+                </ul>
+            <li>Контакты
+        </ul>
+</ul>
+{% endblock %}
+{% block scripts %}
+<script src="../static/js/tree.js"></script>
 {% endblock %}

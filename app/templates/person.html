@@ -6,8 +6,10 @@
 <div class="container">
     <div class="row">
         {% if form %}
-        <div class="col-md-5">
-            {{ wtf.quick_form(form) }}
+        <div class="col-md-5 form-group-sm ">
+
+            {{ wtf.quick_form(form, button_map={'submit':'primary'}) }}
+
         </div>
         <div class="col">
             <img class="rounded float-start" src="/static/images/personal/{{person.photo_url}}" height="300">

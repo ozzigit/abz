@@ -22,9 +22,10 @@ class Commands:
         workers_in_previous_hierarchy = set()
         workers_in_previous_hierarchy.add(boss)
         list_workers = [10, 30, 70, 150, 500]
-        for hierarchy in range(5):
+        for hierarchy in range(len(list_workers)):
             all_workers_before_update = set(db.session.query(model).all())
             for i in range(list_workers[hierarchy]):
+
                 new_employee = model(**cls.__random_dict_employee(workers_in_previous_hierarchy, list_of_random_photo))
                 db.session.add(new_employee)
             db.session.commit()

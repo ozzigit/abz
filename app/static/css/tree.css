@@ -1,0 +1,28 @@
+.treeCSS {
+    cursor: pointer;
+}
+
+.treeCSS .drop {
+    position: absolute;
+    left: -.5em;
+    top: .4em; /* .2em (font-size: 80%;) + .2em (padding из .treeCSS li li) */
+    width: .9em;
+    height: .9em;
+    line-height: .9em;
+    text-align: center;
+    background: #fff;
+    font-size: 80%;
+    cursor: pointer;
+}
+
+.treeCSS li:last-child > .drop {
+    margin-left: 1px;
+}
+
+.treeCSS .drop + ul {
+    display: none;
+}
+
+.treeCSS .dropM + ul {
+    display: block;
+}
