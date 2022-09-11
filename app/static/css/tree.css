@@ -26,3 +26,14 @@
 .treeCSS .dropM + ul {
     display: block;
 }
+
+ul#proList {
+    display: block;
+    list-style-position: inside
+}
+
+li.item {
+    list-style: none;
+    padding: 5px;
+    cursor: pointer;
+}

@@ -5,19 +5,10 @@
 {% endblock %}
 {% block app_content %}
 <h1 class="text-center"> Hi, {{ current_user.username }} !</h1>
+
 <h2> Tree of employers</h2>
-<ul class="treeCSS list-group">
-    <li class="list-group-item list-group-item-dark">Сайт
-        <ul class="treeCSS list-group">
-            <li class="list-group-item list-group-item-dark">Блог
-                <ul class="treeCSS list-group">
-                    <li class="list-group-item list-group-item-dark">HTML
-                    <li class="list-group-item list-group-item-dark">CSS
-                    <li class="list-group-item list-group-item-dark">JavaScript
-                </ul>
-            <li>Контакты
-        </ul>
-</ul>
+<div id="renderList"></div>
+
 {% endblock %}
 {% block scripts %}
 <script src="../static/js/tree.js"></script>

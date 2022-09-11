@@ -6,11 +6,11 @@ from app.forms import LoginForm, RegistrationForm, PersonForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import Users, Employee
 from werkzeug.urls import url_parse
+import sqlalchemy as sa
 
 
 @app.route('/')
 @app.route('/index')
-@login_required
 def index():
     return render_template('index.html', title="Home Page")
 
@@ -23,6 +23,7 @@ def table():
 
 
 @app.route('/api/data')
+@login_required
 def data():
     query = Employee.query
     # search filter
@@ -138,3 +139,20 @@ def register():
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
+
+
+@app.route('/api/get_employeers')
+def get_employeers():
+    query = Employee.query
+    # search filter
+    search = request.args.get('search[value]')
+    if search:
+        query = query.filter(Employee.wage == search if search.isnumeric() else None)
+    else:
+        # get top chiefs
+        query = query.filter(Employee.chief_id == sa.null())
+    # response
+    return {
+        'data': [employee.to_dict() for employee in query],
+        'draw': request.args.get('draw', type=int),
+    }
