@@ -145,11 +145,10 @@ def register():
 def get_employeers():
     query = Employee.query
     # search filter
-    search = request.args.get('search[value]')
+    search = request.args.get('id_childs')
     if search:
-        query = query.filter(Employee.wage == search if search.isnumeric() else None)
+        query = query.filter(Employee.chief_id == search)
     else:
-        # get top chiefs
         query = query.filter(Employee.chief_id == sa.null())
     # response
     return {

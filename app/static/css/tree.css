@@ -32,7 +32,7 @@ ul#proList {
     list-style-position: inside
 }
 
-li.item {
+li.tree {
     list-style: none;
     padding: 5px;
     cursor: pointer;
