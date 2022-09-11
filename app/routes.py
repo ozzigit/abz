@@ -150,8 +150,6 @@ def get_employeers():
         query = query.filter(Employee.chief_id == search)
     else:
         query = query.filter(Employee.chief_id == sa.null())
-    # response
-    # [print(employee.to_dict()) for employee in query]
     return {
         'data': [employee.to_dict() for employee in query],
         # 'draw': request.args.get('draw', type=int),

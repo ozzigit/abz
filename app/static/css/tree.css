@@ -37,12 +37,11 @@ li.tree {
     padding: 5px;
     cursor: pointer;
 }
-
-/*
-.tree.close {
+.tree.hide {
     display: none;
 }
 
+/*
 .tree.open {
     display: block;
 }

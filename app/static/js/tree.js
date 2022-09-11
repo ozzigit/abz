@@ -32,44 +32,31 @@ $(document).ready(function () {
 
         function renderProductList(element) {
             var li = document.createElement('li');
-            li.setAttribute('class', 'tree close');
+            li.setAttribute('class', 'tree');
             li.setAttribute('id', element.id);
             ul.appendChild(li);
-            li.innerHTML = li.innerHTML + element.name;
+            li.innerHTML = li.innerHTML + element.name + ', ' + element.work_position + ', ' + element.date_join + ', ' + element.wage
         }
 
     });
-    $('#renderList').on('click', '.open', (function () {
-        // var id = $(this).attr('id');
-        // render_childs(id)
+    $('#renderList').on('click', '.tree', (function () {
+        var class_chief = $(this).attr('class');
+        var id_chief = $(this).attr('id');
+        var chief_el = document.getElementById(id_chief);
+        var childs = chief_el.getElementsByClassName('tree');
+
+        if (class_chief.indexOf('childs_rendered') === -1) {
+            render_childs(id_chief);
+            chief_el.className += ' childs_rendered';
+        }
+        for (child in childs) {
+            if (childs[child].className.indexOf(' hide') === -1) {
+                childs[child].className += ' hide'
+            } else {
+                childs[child].className = childs[child].className.replace(' hide', '')
+            }
+        }
     }));
 
-    $('#renderList').on('click', '.close', (function () {
-
-        var id = $(this).attr('id');
-        render_childs(id)
-
-        // var id = $(this).attr('id');
-        // var childs = return_childs(id)
-        // for (child in childs) {
-        //     console.log(childs)
-        // }
-        this.className = this.className.replace('close', 'open')
-    }));
     render_childs();
 });
-
-// var ul = document.querySelectorAll('.treeCSS > li:not(:only-child) ul, .treeCSS ul ul');
-// for (var i = 0; i < ul.length; i++) {
-//     var div = document.createElement('div');
-//     div.className = 'drop';
-//     div.innerHTML = '+'; // картинки лучше выравниваются, т.к. символы на одном браузере ровно выглядят, на другом — чуть съезжают
-//     ul[i].parentNode.insertBefore(div, ul[i].previousSibling);
-//     div.onclick = function () {
-//         this.innerHTML = (this.innerHTML == '+' ? '−' : '+');
-//         this.className = (this.className == 'drop' ? 'drop dropM' : 'drop');
-//     };
-//     document.appendChild(div);
-//
-// }
-;
