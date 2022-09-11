@@ -14,7 +14,7 @@ class Commands:
         """
         list_of_random_photo = os.listdir('app/static/images/personal')
         workers_in_previous_hierarchy = set()
-        list_workers = [2, 5, 17, 115, 610]
+        list_workers = [2, 15, 700, 2100, 8500, 40000]
 
         for hierarchy in range(len(list_workers)):
             all_workers_before_update = set(db.session.query(model).all())
