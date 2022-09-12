@@ -20,7 +20,7 @@ $(document).ready(function () {
                 var result = list_of_names(search);
                 var elem_in_listresult = []
                 for (res in result) {
-                    elem_in_listresult.push(result[res].name + ' ' + result[res].date_join);
+                    elem_in_listresult.push(result[res].name + '_' + result[res].date_join);
                 }
                 console.log(elem_in_listresult)
                 $("#chief_name").empty()
@@ -32,7 +32,8 @@ $(document).ready(function () {
                 function renderSelectElem(elem) {
                     var option = document.createElement('option');
                     option.text = elem;
-                    select_list.appendChild(option)
+                    option.setAttribute('value', elem);
+                    select_list.appendChild(option);
                 }
 
             }

@@ -6,6 +6,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.models import Users, Employee
 from werkzeug.urls import url_parse
 import sqlalchemy as sa
+from sqlalchemy import and_
 
 
 @app.route('/')
@@ -75,17 +76,26 @@ def data():
     }
 
 
-@app.route('/person/<id>')
+@app.route('/person/<id>', methods=['GET', 'POST'])
 @login_required
 def get_employee(id: str):
     if not id or not id.isdigit():
-        return redirect(url_for('create_person'), code=302)
+        return redirect(url_for('create_person'))
     employee = db.session.query(Employee).filter(Employee.id == id).all()
-    if len(employee):
-        person = employee[0]
-        form = EditPersonForm(obj=person)
-        return render_template('person.html', title="Person info", person=person, form=form)
-    return redirect(url_for('create_person'), code=302)
+    if not len(employee):
+        return redirect(url_for('create_person'))
+    person: Employee = employee[0]
+    form = EditPersonForm(obj=person)
+    if person.name:
+        form.chief_name.choices = [f"{person.chief_name}_{person.chief.date_join}"]
+    if form.validate_on_submit():
+        if form.edit.data:
+            return redirect(url_for('table'))
+        if form.delete.data:
+            db.session.query(Employee).filter(Employee.id == person.id).delete()
+            db.session.commit()
+            return redirect(url_for('table'))
+    return render_template('person.html', title="Person info", person=person, form=form)
 
 
 @app.route('/create_person', methods=["GET", "POST"])
@@ -93,6 +103,22 @@ def get_employee(id: str):
 def create_person():
     form = CreatePersonForm()
     if form.validate_on_submit():
+        if form.chief_name.data:
+            chief_name_form, chief_date_form = form.chief_name.data.split('_')
+            chief = db.session.query(Employee).filter(
+                and_(Employee.name == chief_name_form, Employee.date_join == chief_date_form)).all()[0]
+            chief_id = chief.id
+            chief_name = chief.name
+        else:
+            chief_id = None
+            chief_name = ''
+        # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        # photo upload func is not realized
+        person = Employee(name=form.name.data, work_position=form.work_position.data, date_join=form.date_join.data,
+                          wage=form.wage.data, chief_id=chief_id, chief_name=chief_name)
+        db.session.add(person)
+        db.session.commit()
+        flash("User added")
         return redirect(url_for('create_person'))
 
     return render_template('person.html', title="Create employee form ", form=form)
