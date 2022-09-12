@@ -8,7 +8,7 @@
         {% if form %}
         <div class="col-md-5 form-group-sm ">
 
-            {{ wtf.quick_form(form, button_map={'submit':'primary'}) }}
+            {{ wtf.quick_form(form, button_map={'edit':'primary','delete':'danger'}) }}
 
         </div>
         <div class="col">

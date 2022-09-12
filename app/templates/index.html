@@ -4,7 +4,9 @@
 <link rel="stylesheet" type="text/css" href="../static/css/tree.css">
 {% endblock %}
 {% block app_content %}
-<h1 class="text-center"> Hi, {{ current_user.username }} !</h1>
+<h1 class="text-center">
+    {% if current_user.username %} Hi, {{ current_user.username }} ! {% else %}Welcome to ABZ{% endif %}
+</h1>
 
 <h2> Tree of employers</h2>
 <div id="renderList"></div>

@@ -1,3 +1,4 @@
+// maybe need chenge render func to render and hide childs 1th lewel (doble click effect)
 $(document).ready(function () {
     var return_childs = (function (id_chief) {
         var tmp = null;
@@ -24,7 +25,7 @@ $(document).ready(function () {
         // Do stuff after everything has been loaded
         var ul = document.createElement('ul');
         ul.setAttribute('id', 'chiefs');
-
+        ul.setAttribute('class', 'list-group');
         document.getElementById(id_chief).appendChild(ul);
         for (obj in response_data) {
             renderProductList(response_data[obj]);
@@ -32,7 +33,7 @@ $(document).ready(function () {
 
         function renderProductList(element) {
             var li = document.createElement('li');
-            li.setAttribute('class', 'tree');
+            li.setAttribute('class', 'list-group-item tree');
             li.setAttribute('id', element.id);
             ul.appendChild(li);
             li.innerHTML = li.innerHTML + element.name + ', ' + element.work_position + ', ' + element.date_join + ', ' + element.wage

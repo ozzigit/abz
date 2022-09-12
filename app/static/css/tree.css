@@ -2,47 +2,21 @@
     cursor: pointer;
 }
 
-.treeCSS .drop {
-    position: absolute;
-    left: -.5em;
-    top: .4em; /* .2em (font-size: 80%;) + .2em (padding из .treeCSS li li) */
-    width: .9em;
-    height: .9em;
-    line-height: .9em;
-    text-align: center;
-    background: #fff;
-    font-size: 80%;
-    cursor: pointer;
+.tree li:last-child > .drop {
+    margin-left: 12px;
 }
 
-.treeCSS li:last-child > .drop {
-    margin-left: 1px;
-}
-
-.treeCSS .drop + ul {
-    display: none;
-}
-
-.treeCSS .dropM + ul {
-    display: block;
-}
-
-ul#proList {
+ul#renderList {
     display: block;
     list-style-position: inside
 }
 
 li.tree {
     list-style: none;
-    padding: 5px;
+    padding: 12px;
     cursor: pointer;
 }
+
 .tree.hide {
     display: none;
 }
-
-/*
-.tree.open {
-    display: block;
-}
-*/

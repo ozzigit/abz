@@ -32,7 +32,8 @@ class PersonForm(FlaskForm):
     wage = StringField("Wage")
     chief_name = StringField("Chief")
     photo_url = FileField("Photo")
-    submit = SubmitField('Register')
+    edit = SubmitField('Edit')
+    delete = SubmitField('Delete')
 
     def validate_name(self, person_name):
         user = Users.query.filter_by(username=person_name.data).first()

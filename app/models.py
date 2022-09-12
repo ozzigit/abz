@@ -1,8 +1,6 @@
 from sqlalchemy.orm import relationship
-
 from app import db, login
 from sqlalchemy import Identity
-from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
