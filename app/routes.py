@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-import json
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, PersonForm
+from app.forms import LoginForm, RegistrationForm, EditPersonForm, CreatePersonForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import Users, Employee
 from werkzeug.urls import url_parse
@@ -18,7 +17,7 @@ def index():
 @app.route('/table')
 @login_required
 def table():
-    employees = db.session.query(Employee).filter(Employee.name != 'Boss')
+    employees = db.session.query(Employee).all()
     return render_template('table.html', title="Table view", employees=employees)
 
 
@@ -80,25 +79,23 @@ def data():
 @login_required
 def get_employee(id: str):
     if not id or not id.isdigit():
-        return redirect('/table', code=302)
+        return redirect(url_for('create_person'), code=302)
     employee = db.session.query(Employee).filter(Employee.id == id).all()
     if len(employee):
         person = employee[0]
-        form = PersonForm(obj=person)
+        form = EditPersonForm(obj=person)
         return render_template('person.html', title="Person info", person=person, form=form)
-    return redirect('/table', code=302)
+    return redirect(url_for('create_person'), code=302)
 
 
-@app.route('/get_childs/<id>')
+@app.route('/create_person', methods=["GET", "POST"])
 @login_required
-def get_childs(id: str):
-    if not id or not id.isdigit():
-        return redirect('/table', code=302)
-    childs = db.session.query(Employee).filter(Employee.chief_id == id).all()
-    chief = db.session.query(Employee).filter(Employee.id == id).all()
-    if len(childs) and len(chief):
-        return render_template('child.html', title="childs list", childs=childs, chief=chief[0])
-    return redirect('/table', code=302)
+def create_person():
+    form = CreatePersonForm()
+    if form.validate_on_submit():
+        return redirect(url_for('create_person'))
+
+    return render_template('person.html', title="Create employee form ", form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -143,6 +140,7 @@ def register():
 
 @app.route('/api/get_employeers')
 def get_employeers():
+    """:return list of childs of employeers if exist id_chief or list of top boss"""
     query = Employee.query
     # search filter
     search = request.args.get('id_chief')
@@ -153,4 +151,15 @@ def get_employeers():
     return {
         'data': [employee.to_dict() for employee in query],
         # 'draw': request.args.get('draw', type=int),
+    }
+
+
+@app.route('/api/get_list_by_filter_names')
+def get_list_by_filter_names():
+    """:return list of childs of employeers if exist id_chief or list of top boss"""
+    # search filter
+    search = request.args.get('name')
+    query = Employee.query.filter(Employee.name.like(f"%{search}%"))
+    return {
+        'data': [employee.to_dict() for employee in query],
     }

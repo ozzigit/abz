@@ -30,7 +30,6 @@ $(document).ready(function () {
         for (obj in response_data) {
             renderProductList(response_data[obj]);
         }
-
         function renderProductList(element) {
             var li = document.createElement('li');
             li.setAttribute('class', 'list-group-item tree');
@@ -50,11 +49,13 @@ $(document).ready(function () {
             render_childs(id_chief);
             chief_el.className += ' childs_rendered';
         }
-        for (child in childs) {
-            if (childs[child].className.indexOf(' hide') === -1) {
-                childs[child].className += ' hide'
-            } else {
-                childs[child].className = childs[child].className.replace(' hide', '')
+        if (childs !== undefined) {
+            for (child in childs) {
+                if (childs[child].className.indexOf(' hide') === -1) {
+                    childs[child].className += ' hide'
+                } else {
+                    childs[child].className = childs[child].className.replace(' hide', '')
+                }
             }
         }
     }));
