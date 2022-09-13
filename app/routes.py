@@ -86,12 +86,36 @@ def get_employee(id: str):
         return redirect(url_for('create_person'))
     person: Employee = employee[0]
     form = EditPersonForm(obj=person)
-    if person.name:
+    if person.chief_name:
         form.chief_name.choices = [f"{person.chief_name}_{person.chief.date_join}"]
     if form.validate_on_submit():
+        childs = db.session.query(Employee).filter(Employee.chief_id == person.id).all()
         if form.edit.data:
-            return redirect(url_for('table'))
+            if form.chief_name.data:
+                chief_name_form, chief_date_form = form.chief_name.data.split('_')
+                chief = db.session.query(Employee).filter(
+                    and_(Employee.name == chief_name_form, Employee.date_join == chief_date_form)).all()[0]
+                chief_id = chief.id
+                chief_name = chief.name
+            else:
+                chief_id = None
+                chief_name = ''
+            person.name = form.name.data
+            person.work_position = form.work_position.data
+            person.date_join = form.date_join.data
+            person.wage = form.wage.data
+            person.chief_id = chief_id
+            person.chief_name = chief_name
+            db.session.commit()
+            flash("User changet")
+            return redirect(url_for('get_employee', id=id))
+
         if form.delete.data:
+            for child in childs:
+                child.chief_name = person.chief_name
+                child.chief_id = person.chief_id
+                child.chief = person.chief
+                db.session.add(child)
             db.session.query(Employee).filter(Employee.id == person.id).delete()
             db.session.commit()
             return redirect(url_for('table'))
