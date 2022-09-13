@@ -1,3 +1,5 @@
+// in form elments have no element select_with_search
+// this script adds options to the select tag from query with a keyword from input apper
 $(document).ready(function () {
     var list_of_names = (function (part_of_name) {
         var tmp = null;

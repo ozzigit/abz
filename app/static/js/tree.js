@@ -1,4 +1,5 @@
-// maybe need chenge render func to render and hide childs 1th lewel (doble click effect)
+//script adds elem to list of employeers on click even
+//need chenge render func to render and hide childs 1th lewel (doble click effect)
 $(document).ready(function () {
     var return_childs = (function (id_chief) {
         var tmp = null;

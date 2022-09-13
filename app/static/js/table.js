@@ -1,3 +1,4 @@
+// script allows catch event of click on table rows  and redirect to needed person form
 let table
 $(document).ready(function () {
     table = $('#data').DataTable({

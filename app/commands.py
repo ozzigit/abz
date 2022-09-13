@@ -14,6 +14,7 @@ class Commands:
         """
         list_of_random_photo = os.listdir('app/static/images/personal')
         workers_in_previous_hierarchy = set()
+        #len of list is a depth of hierarchy sum of list is a num of emploteers
         list_workers = [2, 15, 700, 2100, 8500, 40000]
 
         for hierarchy in range(len(list_workers)):

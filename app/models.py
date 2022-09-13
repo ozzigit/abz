@@ -27,6 +27,7 @@ class Employee(db.Model):
         return '<Name {}, id {}, chief {}>'.format(self.name, self.id, self.chief)
 
     def to_dict(self):
+        """method for return data to table client"""
         chief = db.session.query(Employee).filter(Employee.id == self.chief_id).all()
         if len(chief):
             chief = chief[0]

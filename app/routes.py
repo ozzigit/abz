@@ -18,6 +18,7 @@ def index():
 @app.route('/table')
 @login_required
 def table():
+    """table of all employeers"""
     employees = db.session.query(Employee).all()
     return render_template('table.html', title="Table view", employees=employees)
 
@@ -25,8 +26,9 @@ def table():
 @app.route('/api/data')
 @login_required
 def data():
+    """api for cut request data to table(with more than 50000 el client table is upload slowly"""
+
     query = Employee.query
-    # search filter
     search = request.args.get('search[value]')
 
     if search:
@@ -79,6 +81,7 @@ def data():
 @app.route('/person/<id>', methods=['GET', 'POST'])
 @login_required
 def get_employee(id: str):
+    """return form to update or delete person"""
     if not id or not id.isdigit():
         return redirect(url_for('create_person'))
     employee = db.session.query(Employee).filter(Employee.id == id).all()
@@ -125,6 +128,7 @@ def get_employee(id: str):
 @app.route('/create_person', methods=["GET", "POST"])
 @login_required
 def create_person():
+    """create a new person"""
     form = CreatePersonForm()
     if form.validate_on_submit():
         if form.chief_name.data:
