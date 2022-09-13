@@ -1,9 +1,27 @@
 Тестовое задание abz.agency
 ======
-git clone this repo -> cd to repo folder -> sudo ./atp_install.sh(if needed); ./pip_install.sh
-apt_install.sh - to update,upgrade sys and install needed pacs need root
-pip_install.sh - to install requirements.txt
-rename .env_example to .env and edit if needed
+
+```bash
+git clone this repo
+cd to repo folder
+sudo ./atp_install.sh(if needed)
+./pip_install.sh
+apt_install.sh #- to update,upgrade sys and install needed pacs need root
+pip_install.sh #- to install requirements.txt
+rename .env_example to .env and edit #if needed
+```
+
+## Заполнения базы данных
+
+```bash
+flask init_db_employers
+```
+
+## Отчистка базы данных
+
+```bash
+flask clear_employers
+```
 
 - [Прогресс выполнения](#progress)
 
@@ -15,18 +33,16 @@ rename .env_example to .env and edit if needed
     - У каждого сотрудника есть 1 начальник
     - База данных должна содержать не менее 50 000 сотрудников и 5 уровней иерархий
 
-1. :heavy_check_mark: Создайте базу данных используя миграции Django
-2. :heavy_check_mark: Используйте DB seeder для Django ORM для заполнения базы данных.
+1. :heavy_check_mark: Создайте базу данных используя миграции
+2. :heavy_check_mark: Используйте ORM для заполнения базы данных.
 3. :heavy_check_mark: Используйте Twitter Bootstrap для создания базовых стилей Вашей страницы.
 4. :heavy_check_mark: Создайте еще одну страницу и выведите на ней список сотрудников со всей имеющейся о сотруднике
-   информацией из
-   базы данных и возможностью сортировать по любому полю.
+   информацией из базы данных и возможностью сортировать по любому полю.
 5. :heavy_check_mark: Добавьте возможность поиска сотрудников по любому полю для страницы созданной в задаче 4.
 6. :heavy_check_mark: Добавьте возможность сортировать (и искать, если Вы выполнили задачу №5) по любому полю без
-   перезагрузки
-   страницы, например используя ajax.
-7. :heavy_check_mark: Используя стандартные функции Django, осуществите аутентификацию пользователя для раздела
-   веб-сайта доступного только для зарегистрированных пользователей
+   перезагрузки страницы, например используя ajax.
+7. :heavy_check_mark: Осуществите аутентификацию пользователя для раздела веб-сайта доступного только для
+   зарегистрированных пользователей
 8. :heavy_check_mark: Перенесите функционал разработанный в задачах 4, 5 и 6 в раздел доступный только для
    зарегистрированных пользователей.
 9. :heavy_check_mark: В разделе доступном только для зарегистрированных пользователей, реализуйте остальные CRUD
