@@ -11,7 +11,7 @@ pip_install.sh #- to install requirements.txt
 rename .env_example to .env and edit #if needed
 ```
 
-## Заполнения базы данных
+## Заполнение базы данных
 
 ```bash
 flask init_db_employers
