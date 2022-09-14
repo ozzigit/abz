@@ -34,7 +34,7 @@ class PersonForm(FlaskForm):
     chief_part_name = StringField(
         "Because a list of employeers is too big Please input a part of chief's full name 5 chars min")
     chief_name = SelectField("Chief", choices=['', ''], validate_choice=False)
-    photo_url = FileField("Photo", validators=[FileAllowed(['jpg', 'png'], 'Images only!')])
+    # photo_url = FileField("Photo", validators=[FileAllowed(['jpg', 'png'], 'Images only!')])
 
     def validate_ar_wage(self, ar_params):
         try:
